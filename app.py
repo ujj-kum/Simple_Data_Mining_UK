@@ -29,3 +29,11 @@ if uploaded_file is not None:
             "Select Visualization Type",
             ["Pairplot", "Scatter Plot", "Histogram", "Box Plot"]
         )
+        if visualization_type == "Pairplot":
+            eda.display_pairplot(data)
+        elif visualization_type == "Scatter Plot":
+            eda.display_scatterplot(data)
+        elif visualization_type == "Histogram":
+            eda.display_histogram(data)
+        elif visualization_type == "Box Plot":
+            eda.display_boxplot(data)
