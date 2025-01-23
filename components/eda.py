@@ -31,21 +31,30 @@ def display_basic_info(data):
     st.write("**Unique Values Per Column:**")
     st.write(uniqe_data)
 
-def display_summary_statistics(data):
-
-    # Summary Statistics for Numerical Columns
-    st.write("### Summary Statistics (Numerical Columns)")
-    numerical_summary = data.describe().transpose()
-    st.write(numerical_summary)
-
-    # Summary Statistics for Categorical Columns
-    st.write("### Summary Statistics (Categorical Columns)")
-    categorical_columns = data.select_dtypes(include=['object']).columns
-    if not categorical_columns.empty:
-        categorical_summary = data[categorical_columns].describe().transpose()
-        st.write(categorical_summary)
+def display_pairplot(data):
+    st.header("Pairplot")
+    
+    # Select numerical columns
+    numerical_columns = list(data.select_dtypes(include=['number']).columns)  # Ensure it's a Python list
+    
+    # Check if there are at least two numerical columns
+    if len(numerical_columns) > 1:
+        # Multiselect widget for column selection
+        selected_columns = st.multiselect(
+            "Select columns for pairplot",
+            numerical_columns,
+            default=numerical_columns[:2]  # Default to the first two numerical columns
+        )
+        
+        # Check if user has selected columns
+        if selected_columns:
+            # Create pairplot
+            fig = sns.pairplot(data[selected_columns])
+            st.pyplot(fig)
+        else:
+            st.warning("Please select at least one numerical column for the pairplot.")
     else:
-        st.write("No categorical columns found.")
+        st.warning("Not enough numerical columns in the dataset to create a pairplot.")
 
 def display_outlier_detection(data):
 
