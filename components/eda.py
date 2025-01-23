@@ -3,6 +3,7 @@ import streamlit as st
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+
 def display_basic_info(data):
     
     # Dataset Shape
@@ -32,6 +33,7 @@ def display_basic_info(data):
     st.write("**Unique Values Per Column:**")
     st.write(uniqe_data)
 
+
 def display_summary_statistics(data):
 
     # Summary Statistics for Numerical Columns
@@ -48,6 +50,7 @@ def display_summary_statistics(data):
     else:
         st.write("No categorical columns found.")
 
+
 # Display correlation matrix
 def display_correlation_matrix(data):
     st.header("Correlation Matrix")
@@ -59,6 +62,7 @@ def display_correlation_matrix(data):
         st.pyplot(fig)
     else:
         st.write("No numerical columns for correlation matrix.")
+
 
 # Display pairplot
 def display_pairplot(data):
@@ -85,6 +89,74 @@ def display_pairplot(data):
             st.warning("Please select at least one numerical column for the pairplot.")
     else:
         st.warning("Not enough numerical columns in the dataset to create a pairplot.")
+
+
+def display_scatterplot(data):
+    st.header("Scatter Plot")
+    
+    # Select numerical columns
+    numerical_columns = list(data.select_dtypes(include=['number']).columns)  # Ensure it's a Python list
+    
+    # Check if there are at least two numerical columns
+    if len(numerical_columns) > 1:
+        # Dropdowns for selecting x and y axes
+        x_col = st.selectbox("Select X-axis column", numerical_columns)
+        y_col = st.selectbox("Select Y-axis column", numerical_columns)
+        
+        # Create scatter plot
+        fig, ax = plt.subplots()
+        ax.scatter(data[x_col], data[y_col], alpha=0.7)
+        ax.set_xlabel(x_col)
+        ax.set_ylabel(y_col)
+        ax.set_title(f"Scatter Plot: {x_col} vs {y_col}")
+        st.pyplot(fig)
+    else:
+        st.warning("Not enough numerical columns in the dataset to create a scatter plot.")
+
+
+def display_histogram(data):
+    st.header("Histogram")
+    
+    # Select numerical columns
+    numerical_columns = list(data.select_dtypes(include=['number']).columns)
+    
+    # Check if there are numerical columns
+    if numerical_columns:
+        # Dropdown for selecting the column
+        selected_column = st.selectbox("Select column for histogram", numerical_columns)
+        
+        # Create histogram
+        fig, ax = plt.subplots()
+        ax.hist(data[selected_column], bins=20, alpha=0.7, color='blue')
+        ax.set_xlabel(selected_column)
+        ax.set_ylabel("Frequency")
+        ax.set_title(f"Histogram: {selected_column}")
+        st.pyplot(fig)
+    else:
+        st.warning("No numerical columns in the dataset to create a histogram.")
+
+
+
+def display_boxplot(data):
+    st.header("Box Plot")
+    
+    # Select numerical columns
+    numerical_columns = list(data.select_dtypes(include=['number']).columns)
+    
+    # Check if there are numerical columns
+    if numerical_columns:
+        # Dropdown for selecting the column
+        selected_column = st.selectbox("Select column for box plot", numerical_columns)
+        
+        # Create box plot
+        fig, ax = plt.subplots()
+        ax.boxplot(data[selected_column].dropna(), vert=True, patch_artist=True)
+        ax.set_ylabel(selected_column)
+        ax.set_title(f"Box Plot: {selected_column}")
+        st.pyplot(fig)
+    else:
+        st.warning("No numerical columns in the dataset to create a box plot.")
+
 
 # Display outlier detection
 def display_outlier_detection(data):

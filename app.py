@@ -24,5 +24,8 @@ if uploaded_file is not None:
         eda.display_correlation_matrix(data)
     with st.expander("Outlier Detection"):
         eda.display_outlier_detection(data)
-    with st.expander("Pairplot"):
-        eda.display_pairplot(data)
+    with st.expander("Visualizations"):
+        visualization_type = st.selectbox(
+            "Select Visualization Type",
+            ["Pairplot", "Scatter Plot", "Histogram", "Box Plot"]
+        )
