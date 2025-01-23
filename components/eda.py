@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 def display_basic_info(data):
     
     # Dataset Shape
-    st.header("Basic Information")
+    st.header("Basic Information")###
     st.write(f"**Shape of the dataset:** {data.shape[0]} rows, {data.shape[1]} columns")
 
     # Column names and Data Types
